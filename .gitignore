@@ -1,2 +1,4 @@
 /www/node_modules
 /www/build
+/target
+/pkg
