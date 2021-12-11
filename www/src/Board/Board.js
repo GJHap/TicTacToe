@@ -1,49 +1,60 @@
-import React from 'react';
-import Cell from '../Cell/Cell'
+import { useEffect, useRef, useState } from 'react';
+import BoardRow from '../BoardRow/BoardRow';
 import './Board.css'
 
-export default class Board extends React.Component {
-    constructor(props) {
-        super(props);
+export default function Board(props) {
+    const player1Symbol = 'X';
+    const player2Symbol = 'O';
+    const wasm = useRef(null);
+    const game = useRef(null);
+    const [cells, setCells] = useState([]);
 
-        this.state = {
-            cells: [
-                [' ', ' ', ' '],
-                [' ', ' ', ' '],
-                [' ', ' ', ' ']
-            ]
+    useEffect(() => {
+        const loadWASM = async () => {
+            wasm.current = await import('tic_tac_toe');
+            game.current = wasm.current.Game.new(player1Symbol, player2Symbol);
+            setCells(getCells());
         };
+        loadWASM();
+    }, [])
 
-        this.onCellClicked = this.onCellClicked.bind(this);
-    }
+    const onCellClicked = (row, col) => {
+        let game_state = game.current.get_game_state();
+        if (!wasm.current.is_gave_over(game_state) && game.current.is_valid_move(row, col)) {
+            game.current.set_cell_value(row, col, player1Symbol);
+            let game_state = game.current.get_game_state();
 
-    onCellClicked(row, col) {
-        this.setState(
+            if (!wasm.current.is_gave_over(game_state))
             {
-                cells: this.state.cells.map((cellRow, rowIdx) => {
-                    return cellRow.map((cell, colIdx) => {
-                        if (row === rowIdx && col === colIdx) {
-                            return 'X';
-                        }
-                        return cell;
-                    });
-                })
+                let ai_move = wasm.current.get_best_move(game.current, player2Symbol, player1Symbol);
+                if (game.current.is_valid_move(ai_move.row, ai_move.col)) {
+                    game.current.set_cell_value(ai_move.row, ai_move.col, player2Symbol);
+                    game_state = game.current.get_game_state();
+                }
             }
-        )
-    }
 
-    render() {
-        return <div id="board">
+            setCells(getCells());
+            if (wasm.current.is_gave_over(game_state)) {
+                props.onGameOver(wasm.current.game_over_message(game_state));
+            }
+        }
+    };
+
+    const getCells = () => {
+        return [...Array(game.current.dimensions()).keys()].map(row =>
+            [...Array(game.current.dimensions()).keys()].map(col =>
+                game.current.get_cell_value(row, col)
+            )
+        )
+    };
+
+    return (
+        <div id="board">
             {
-                this.state.cells.flatMap((row, rowIdx) =>
-                    <div key={rowIdx.toString()} className="cell-row">
-                        {
-                            row.map((cell, colIdx) => 
-                                <Cell key={rowIdx.toString() + "," + colIdx.toString()} value={cell} onClick={() => this.onCellClicked(rowIdx, colIdx)} />
-                        )}
-                    </div>
-                
-            )}
+                cells.flatMap((row, rowIdx) =>
+                    <BoardRow key={rowIdx} rowIdx={rowIdx} row={row} onCellClicked={onCellClicked} /> 
+                )
+            }
         </div>
-    }
+    );
 }

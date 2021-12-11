@@ -1,12 +1,17 @@
+import { useState } from 'react';
 import Board from '../Board/Board';
 import './App.css'
 
-function App() {
+export default function App() {
+  const [gameOverText, setGameOverText] = useState('');
+  function onGameOver(gameOverText) {
+    setGameOverText(gameOverText);
+  }
+
   return (
     <div id="App">
-      <Board></Board>
+      <label className="gameOver">{gameOverText}</label>
+      <Board onGameOver={onGameOver}></Board>
     </div>
   );
 }
-
-export default App;

@@ -1,14 +1,6 @@
 #board {
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
-    height: 100%;
-}
-
-.cell-row {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+    width: 40vmin;
+    height: 40vmin;
 }

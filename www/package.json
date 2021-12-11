@@ -1,18 +1,19 @@
 {
   "dependencies": {
-    "@testing-library/jest-dom": "^5.15.0",
-    "@testing-library/react": "^11.2.7",
-    "@testing-library/user-event": "^12.8.3",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "tic_tac_toe": "file:../pkg"
+  },
+  "devDependencies": {
     "react-scripts": "4.0.3",
-    "web-vitals": "^1.1.2"
+    "@craco/craco": "6.4.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "craco start",
+    "build:react": "craco build",
+    "build:wasm": "wasm-pack build ../",
+    "build": "npm run build:wasm && npm run build:react",
+    "test": "craco test"
   },
   "eslintConfig": {
     "extends": [
