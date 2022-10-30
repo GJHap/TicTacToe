@@ -1,36 +1,16 @@
 {
-  "dependencies": {
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
-    "tic_tac_toe": "file:../pkg"
-  },
-  "devDependencies": {
-    "react-scripts": "4.0.3",
-    "@craco/craco": "6.4.2"
-  },
-  "scripts": {
-    "start": "craco start",
-    "build:react": "craco build",
-    "build:wasm": "wasm-pack build ../",
-    "build": "npm run build:wasm && npm run build:react",
-    "test": "craco test"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+    "dependencies": {
+        "react": "17.0.2",
+        "react-dom": "17.0.2"
+    },
+    "devDependencies": {
+        "vite": "^3.2.1",
+        "vite-plugin-top-level-await": "^1.2.1",
+        "vite-plugin-wasm": "^3.1.0"
+    },
+    "scripts": {
+        "dev": "vite",
+        "build:wasm": "wasm-pack build --target web -d www/src/wasm ../",
+        "build": "vite build"
+    }
 }

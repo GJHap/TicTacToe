@@ -46,6 +46,7 @@ impl Game {
         self.cells[row][col] == Game::EMPTY_CELL
     }
 
+    #[wasm_bindgen(constructor)]
     pub fn new(player1_symbol: char, player2_symbol: char) -> Game {
         Game {
             player1_symbol: player1_symbol,

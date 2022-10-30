@@ -1,4 +1,4 @@
 /www/node_modules
-/www/build
 /target
-/pkg
+/www/src/wasm
+/www/public
