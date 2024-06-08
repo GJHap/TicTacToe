@@ -2,3 +2,4 @@
 /target
 /www/src/wasm
 /www/public
+/.direnv
