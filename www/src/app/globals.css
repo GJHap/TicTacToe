@@ -1,0 +1,7 @@
+@tailwind utilities;
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}

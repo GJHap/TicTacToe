@@ -1,5 +1,5 @@
 /www/node_modules
-/target
-/www/src/wasm
 /www/public
+/www/.next
+/target
 /.direnv
